@@ -5,6 +5,7 @@ interface EvmWindow {
   ethereum?: any
   spotEthWallet?: any
   abc?: any
+  okxwallet?: any
 }
 
 export const PresetUtil = {
@@ -27,7 +28,8 @@ export const PresetUtil = {
       tokenary: '5e481041-dc3c-4a81-373a-76bbde91b800',
       '1inch': 'dce1ee99-403f-44a9-9f94-20de30616500',
       phantom: '62471a22-33cb-4e65-5b54-c3d9ea24b900',
-      abcWallet: '8d0c93ce-9d18-44ec-6243-4b94ac0c6f00'
+      abcWallet: '8d0c93ce-9d18-44ec-6243-4b94ac0c6f00',
+      okxwallet: '45f2f08e-fc0c-4d62-3e63-404e72170500'
     } as Record<string, string | undefined>
 
     return { fallback, presets }
@@ -36,7 +38,7 @@ export const PresetUtil = {
   optimisticWalletId(id: string) {
     if (id.toUpperCase() !== 'INJECTED') return id
 
-    const { ethereum, spotEthWallet, abc }: EvmWindow = window
+    const { ethereum, spotEthWallet, abc, okxwallet }: EvmWindow = window
     // Default to metamask and reccomend it as default install
     if (!ethereum) return 'metaMask'
     if (ethereum.isTrust || ethereum.isTrustWallet) return 'trust'
@@ -57,6 +59,7 @@ export const PresetUtil = {
     if (ethereum.isOneInchIOSWallet || ethereum.isOneInchAndroidWallet) return '1inchWallet'
     if (ethereum.isKuCoinWallet) return 'kuCoinWallet'
     if (abc) return 'abcWallet'
+    if (okxwallet) return 'okxwallet'
     // Have to push metamask check lower, as most other wallets add this
     if (ethereum.isMetaMask) return 'metaMask'
 
@@ -104,8 +107,11 @@ export const PresetUtil = {
     if (name.toUpperCase() !== 'INJECTED' && name !== 'MetaMask') {
       return name
     }
+    if (name === 'MetaMask') {
+      return 'MetaMask'
+    }
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const { ethereum, spotEthWallet, abc }: EvmWindow = window
+    const { ethereum, spotEthWallet, abc, okxwallet }: EvmWindow = window
     // Default to metamask and reccomend it as default install
     if (!ethereum) return 'MetaMask'
     if (ethereum.isTrust || ethereum.isTrustWallet) return 'Trust'
@@ -126,6 +132,7 @@ export const PresetUtil = {
     if (ethereum.isOneInchIOSWallet || ethereum.isOneInchAndroidWallet) return '1inch Wallet'
     if (ethereum.isKuCoinWallet) return 'KuCoin Wallet'
     if (abc) return 'ABC Wallet'
+    if (okxwallet) return 'OKX Wallet'
     // Have to push metamask check lower, as most other wallets add this
     if (ethereum.isMetaMask) return 'MetaMask'
 
